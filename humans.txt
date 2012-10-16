@@ -1,0 +1,13 @@
+/* Team */
+Name: Phalanxia
+Site: http://github.com/phalanxia/
+Twitter: @Phalanxia
+
+/* SITE */
+Languages: HTML5, CSS3, PHP, Javascript
+Components: jQuery, LESS
+Software: Sublime Text 2
+
+Hanasu - https://github.com/Amrykid/Hanasu/
+
+Font Awesome - http://fortawesome.github.com/Font-Awesome
