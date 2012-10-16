@@ -1,7 +1,8 @@
 <!doctype html>
 <head>
 	<title></title>
-	<link rel="stylesheet" type="text/css" href="css/styles.css">
+	<link rel="stylesheet/less" type="text/css" href="css/styles.less">
+	<script src="js/less.js" type="text/javascript"></script>
 	<link rel="stylesheet" href="css/font-awesome.css">
 	<!--[if IE 7]>
 		<link rel="stylesheet" type="text/css" href="font-awesome-ie7.css">
@@ -10,7 +11,25 @@
 <body>
 	<header>
 		<h1 id="logo">Hanasu</h1>
+		<div id="headerRight">
+			<button class="navButton"><span class="navButtonI"></span></button>
+			<button class="navButton icon-cog"><span class="navButtonI">Settings</span></button>
+			<button class="navButton icon-fullscreen"><span class="navButtonI">Fullscreen</span></button>
+		</div>
 	</header>
+	<!--<div id="settings" class="popupBox">
+		<div class="pBoxT">
+			<span class="pBoxTTitle">Settings</span>
+			<button class="pBoxTClose icon-remove"></button>
+		</div>
+	</div>-->
+	<div id="mainPage">
+	</div>
+	<div id="settings" class="page">
+		<div id="settingsLeft" class="leftBar">
+			<h1>Settings</h1>
+		</div>
+	</div>
 </body>
 <script src="js/jquery-1.8.2.min.js"></script>
 <script src="js/core.js" type="text/javascript"></script>
