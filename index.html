@@ -1,6 +1,6 @@
 <!doctype html>
 <head>
-	<title></title>
+	<title>Hanasu</title>
 	<link rel="stylesheet/less" type="text/css" href="css/styles.less">
 	<script src="js/less.js" type="text/javascript"></script>
 	<link rel="stylesheet" href="css/font-awesome.css">
@@ -11,24 +11,49 @@
 <body>
 	<header>
 		<h1 id="logo">Hanasu</h1>
-		<div id="headerRight">
-			<button class="navButton"><span class="navButtonI"></span></button>
-			<button class="navButton icon-cog"><span class="navButtonI">Settings</span></button>
+		<div id="controls">
+			<button id="" class="controlButton icon-step-backward"></button>
+			<button id="" class="controlButton icon-play"></button>
+			<button id="" class="controlButton icon-step-forward"></button>
+		</div>
+		<nav id="headerRight">
+			<button class="navButton icon-headphones"><span class="navButtonI">Playing</span></button>
+			<button class="navButton icon-music"><span class="navButtonI">Stations</span></button>
+			<button id="nButtonSettings" class="navButton icon-cog"><span class="navButtonI">Settings</span></button>
 			<button class="navButton icon-fullscreen"><span class="navButtonI">Fullscreen</span></button>
-		</div>
+		</nav>
 	</header>
-	<!--<div id="settings" class="popupBox">
-		<div class="pBoxT">
-			<span class="pBoxTTitle">Settings</span>
-			<button class="pBoxTClose icon-remove"></button>
-		</div>
-	</div>-->
-	<div id="mainPage">
+	<div id="mainPage" class="page">
+		<button id="mD" class="button">Dialog Example</button>
+		<button id="nE" class="button">Notification Example</button>
 	</div>
-	<div id="settings" class="page">
+	<div id="settings" class="page" style="display:none;">
 		<div id="settingsLeft" class="leftBar">
 			<h1>Settings</h1>
+			<ul>
+				<li><a href="">Web to Client Connection</a></li>
+				<li><a href="">Sound</a></li>
+				<li><a href="">Interface</a></li>
+				<li><a href="">Keyboard Shortcuts</a></li>
+			</ul>
 		</div>
+	</div>
+	<div id="dialogP" style="display:none;">
+		<div id="dialogDark">
+			<div id="dialog">
+				<div id="dialogI">
+					<h1></h1>
+					<p></p>
+					<button id="dialogButton" class="button">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="notification" style="display:none;">
+		<img id="songimage" src=""/>
+		<span id="songname"></span>
+		<span id="songartist"></span>
+		<span id="notificationIcon" class="icon-info-sign"></span>
 	</div>
 </body>
 <script src="js/jquery-1.8.2.min.js"></script>

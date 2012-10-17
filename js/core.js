@@ -1,45 +1,38 @@
 function nav(pagenum){
+	var p = $(".page");
 	switch(pagenum){
 		case 0:
-			$(".navlink").removeClass('currentnav');
-			$("#homenavbtn").addClass('currentnav');
-			pagetab.fadeOut().hide();
-			hometab.fadeIn().show();
+			p.fadeOut();
+			$("#mainPage").fadeIn();
 			break;
 		case 1:
-			$(".navlink").removeClass('currentnav');
-			$("#experimentsnavbtn").addClass('currentnav');
-			pagetab.fadeOut().hide();
-			experimentstab.fadeIn().show();
+			p.fadeOut();
+			$("#settings").fadeIn();
 			break;
 		case 2:
-			$(".navlink").removeClass('currentnav');
-			$("#contactnavbtn").addClass('currentnav');
-			pagetab.fadeOut().hide();
-			contacttab.fadeIn().show();
+			p.fadeOut().hide();
 			break;
 	}
 }
 
-$("#homenavbtn").addClass('currentnav');
+function dialog(t,p){
+	$("#dialogI h1").html(t);
+	$("#dialogI p").html(p);
+	$("#dialogP").fadeIn();
+}
 
-$("#logo").click(function(){
-	nav(0);
-});
+function notification(i,t,a){
+	$("#songimage").attr("src", i);
+	$("#songname").html(t);
+	$("#songartist").html(a);
+	$("#notification").fadeIn(200);
+	setTimeout(function() {
+		$("#notification").fadeOut(1000);
+	}, 3000);
+}
 
-$("#homenavbtn").click(function(){
-	nav(0);
-});
-
-$("#experimentsnavbtn").click(function(){
-	nav(1);
-});
-
-$("#contactnavbtn").click(function(){
-	nav(2);
-});
-
-$(".popupclose").click(function(){
-	$(".popup").hide();
-	nav(2);
-});
+$("#logo").click(function(){nav(0);});
+$("#nButtonSettings").click(function(){nav(1);});
+$("#dialogButton").click(function(){$("#dialogP").fadeOut();});
+$("#mD").click(function(){dialog("Error","Some random stuff happened. You should probably look into it.");});
+$("#nE").click(function(){notification("images/songexample.png","Song Name","Artist Name");});

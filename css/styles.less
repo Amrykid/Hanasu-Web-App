@@ -17,18 +17,55 @@ src: url('../fonts/fontawesome-webfont.eot?#iefix') format('embedded-opentype'),
 font-weight: normal;
 font-style: normal;}
 /**** Varibles, Mixins ****/
+@darkgrey:rgba(37,37,37,1);
+@white:rgba(255,255,255,1);
+@offwhite:rgba(220,220,220,1);
+@red:rgba(169,7,7,1);
 .mainfont{
 	font-family: Segoe UI;
 	font-weight: lighter;}
-@darkgrey:rgba(37,37,37,1);
-@white:rgba(255,255,255,1);
-@red:rgba(169,7,7,1);
 /**** Common ****/
 .page{
-	padding: 20px;
+	width: 100%;
+	height: 100%;
 	color: @white;}
+.button{
+	display: block;
+	text-align: center;
+	min-width: 90px;
+	height: 32px;
+	padding: 4px 14px;
+	background-color: @white;
+	border: none;
+	color: @darkgrey;}
+.button:hover{
+	cursor: pointer;}
+.button:active{
+	color: @white;
+	background-color: rgba(0,0,0,1)}
+.leftBar{
+	width: 300px;
+	height: 100%;
+	background-color: #333333;}
+.leftBar ul{
+	width: 300px;
+	list-style: none;}
+.leftBar ul li{
+	float: left;
+	width: 300px;}
+.leftBar ul li:hover{
+	cursor: pointer;
+	background-color: @red;/*rgba(40,40,40,1)*/}
+.leftBar ul li a{
+	padding: 0 0 0 20px;
+	font-size: 20px;
+	line-height: 40px;
+	text-decoration: none;
+	color: #ffffff;}
 /**** Main ****/
 html, body{
+	width: 100%;
+	height: 100%;
 	font-family: Segoe UI;
 	font-weight: lighter;
 	background-color:@darkgrey;
@@ -40,13 +77,32 @@ header{
 	float: left;
 	display: block;
 	height: 60px;
-	width: 120px;
+	width: 140px;
 	font-size: 30px;
 	line-height: 55px;
 	text-align: center;
 	color: @white;}
 #logo:hover{
 	cursor: pointer;}
+#controls{
+	position: absolute;
+	margin: 0 0 0 -90px;
+	left: 50%;
+	right: 50%;
+	width: 180px;}
+.controlButton{
+	display: block;
+	float: left;
+	height: 60px;
+	width: 60px;
+	padding: 0 20px;
+	border: none;
+	background: none;
+	color: @white;
+	font-size: 30px;
+	line-height: 55px;}
+.controlButton:hover{
+	pointer: cursor;}
 #headerRight{
 	float: right;
 	height: 60px;}
@@ -73,17 +129,82 @@ header{
 	-moz-transition: width 0.5s, opacity 0.5s;
 	color: @white;
 	opacity: 0;
+	line-height: 52px;
 	.mainfont}
 .navButton:hover .navButtonI{
 	padding: 0 0 0 20px;
 	width: 100px;
 	opacity: 1;}
-/**** Popup Box ****/
+/**** Popup Box , Dialog , Notification****/
 .popupBox{
 
 }
-/**** Main Page ****/
-/**** Settings Page ****/
-#settings h1{
+#dialogDark{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	background-color: rgba(0,0,0,0.7);
+	z-index: 1;}
+#dialog{
+	position: absolute;
+	width: 100%;
+	height: 200px;
+	top: 50%;
+	margin: -100px 0;
+	background-color: @red;}
+#dialogI{
+	position: relative;
+	width: 920px;
+	height: 160px;
+	padding: 20px;
+	margin: 0 auto;}
+#dialogI h1{
 	font-size: 40px;
-}
+	padding: 0 0 20px 0;
+	color: @white;}
+#dialogI p{
+	font-size: 20px;
+	color: @white;}
+#dialogI button{
+	float: right;
+	position: absolute;
+	bottom: 20px;
+	right: 20px;
+	padding: 4px 14px;}
+#notification{
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	width: 318px;
+	height: 74px;
+	background-color: @red;}
+#notification #songimage{
+	float: left;
+	width: 74px;
+	height: 74px;}
+#songname{
+	padding: 10px 0 0 10px;}
+#songartist{
+	padding: 18px 0 0 10px;}
+#songname, #songartist{
+	display: block;
+	float: left;
+	width: 224px;
+	color: @white;}
+#notificationIcon{
+	position: relative;
+	float: right;
+	bottom: 10px;
+	right: 10px;
+	display: block;
+	color: @offwhite;}
+/**** Main Page ****/
+#mD, #nE{
+	margin: 20px;}
+/**** Settings Page ****/
+#settings #settingsLeft{}
+#settings h1{
+	padding: 20px;
+	font-size: 40px;}
