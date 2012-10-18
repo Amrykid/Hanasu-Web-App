@@ -3,9 +3,13 @@ Name: Phalanxia
 Site: http://github.com/phalanxia/
 Twitter: @Phalanxia
 
+Name: Amrykid
+Site: http://github.com/amrykid/
+Twitter: @Amrykid
+
 /* SITE */
 Languages: HTML5, CSS3, PHP, Javascript
-Components: jQuery, LESS
+Components: jQuery, LESS, Font Awesome
 Software: Sublime Text 2
 
 Hanasu - https://github.com/Amrykid/Hanasu/
