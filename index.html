@@ -18,7 +18,7 @@
 		</div>
 		<nav id="headerRight">
 			<button class="navButton icon-headphones"><span class="navButtonI">Playing</span></button>
-			<button class="navButton icon-music"><span class="navButtonI">Stations</span></button>
+			<button id="nButtonStations" class="navButton icon-music"><span class="navButtonI">Stations</span></button>
 			<button id="nButtonSettings" class="navButton icon-cog"><span class="navButtonI">Settings</span></button>
 			<button id="nButtonFullscreen" class="navButton icon-fullscreen"><span class="navButtonI">Fullscreen</span></button>
 		</nav>
@@ -27,7 +27,24 @@
 		<button id="mD" class="button">Dialog Example</button>
 		<button id="nE" class="button">Notification Example</button>
 	</div>
-	<div id="settings" class="page" style="display:none;">
+	<div id="stationsPage" class="page" style="display:none;">
+		<div id="stationsLeft" class="leftBar">
+			<h1>Stations</h1>
+			<ul>
+				<li><a href="">Hanasu Catalog</a></li>
+				<li><a href="">Custom Catalog</a></li>
+			</ul>
+		</div>
+		<div id="stationContainer">
+			<div id="station">
+				<img src="images/stationexample.png"/>
+				<span clas=""></span>
+				<span clas=""></span>
+				<span clas=""></span>
+			</div>
+		</div>
+	</div>
+	<div id="settingsPage" class="page" style="display:none;">
 		<div id="settingsLeft" class="leftBar">
 			<h1>Settings</h1>
 			<ul>

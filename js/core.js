@@ -7,10 +7,11 @@ function nav(pagenum){
 			break;
 		case 1:
 			p.fadeOut();
-			$("#settings").fadeIn();
+			$("#stationsPage").fadeIn();
 			break;
 		case 2:
-			p.fadeOut().hide();
+			p.fadeOut();
+			$("#settingsPage").fadeIn();
 			break;
 	}
 }
@@ -32,11 +33,10 @@ function notification(i,t,a){
 }
 
 $("#logo").click(function(){nav(0);});
-$("#nButtonSettings").click(function(){nav(1);});
+$("#nButtonStations").click(function(){nav(1);});
+$("#nButtonSettings").click(function(){nav(2);});
 $("#dialogButton").click(function(){$("#dialogP").fadeOut();});
 $("#mD").click(function(){dialog("Error","Some random stuff happened. You should probably look into it.");});
-$("#nE").click(function(){notification("images/songexample.png","Song Name","Artist Name");});
-
-$("#nButtonFullscreen").click(function(){
-	$(document).toggleFullScreen();
-});
+$("#nE").click(function(){notification("images/songexample.png","What the function","The sleep deprived programmers");});
+$("#nButtonFullscreen").click(function(){$(document).toggleFullScreen();});
+$(document).keydown(function(e){if(e.keyCode=='70'){e.preventDefault();$(document).toggleFullScreen();}});
