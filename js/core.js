@@ -40,3 +40,19 @@ $("#mD").click(function(){dialog("Error","Some random stuff happened. You should
 $("#nE").click(function(){notification("images/songexample.png","What the function","The sleep deprived programmers");});
 $("#nButtonFullscreen").click(function(){$(document).toggleFullScreen();});
 $(document).keydown(function(e){if(e.keyCode=='70'){e.preventDefault();$(document).toggleFullScreen();}});
+
+// Controls
+
+var isPlaying = false;
+
+$("#cPlay").click(function(){
+	if (isPlaying == false){
+		isPlaying = true;
+		$.post("/play");
+		$("#cPlay").attr('class','controlButton icon-pause');
+	} else {
+		isPlaying = false;
+		$.post("/pause");
+		$("#cPlay").attr('class','controlButton icon-play');
+	}
+});
