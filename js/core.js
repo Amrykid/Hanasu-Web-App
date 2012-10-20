@@ -57,8 +57,17 @@ $("#cPlay").click(function(){
 	}
 });
 
+//Detects if Hanasu is playing a station.
 $.get("/isplaying", function(data){
         isPlaying = data == 'true';
 
-        $("#cPlay").attr('class', isPlaying == true ? 'controlButton icon-pause' : 'controlButton icon-play');       
+        $("#cPlay").attr('class', isPlaying == true ? 'controlButton icon-pause' : 'controlButton icon-play');
+
+        if (isPlaying){
+                
+                //Since Hanasu is playing a station, grab its 'now playing' data and show it in a notification.
+                $.get("/nowplaying", function(track){
+                     notification("images/songexample.png","Now Playing",track);
+                });
+        }
 });
