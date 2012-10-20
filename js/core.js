@@ -56,3 +56,9 @@ $("#cPlay").click(function(){
 		$("#cPlay").attr('class','controlButton icon-play');
 	}
 });
+
+$.get("/isplaying", function(data){
+        isPlaying = data == 'true';
+
+        $("#cPlay").attr('class', isPlaying == true ? 'controlButton icon-pause' : 'controlButton icon-play');       
+});
