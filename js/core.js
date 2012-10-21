@@ -84,8 +84,11 @@ function initializeApp() {
         .error(function (data) {
             //failed to get a response from Hanasu, set isConnected to false
             isConnected = false;
+            isPlaying = false;
 
             currentSong = "";
+
+            $("#cPlay").attr('class', 'controlButton icon-play');
         });
 
     });
