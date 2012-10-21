@@ -35,9 +35,9 @@ function getCatalogStations() {
             var format = $(station).find("Format");
 
             stationHtml.append("<img src=\"" + $(logo).html() + "\"/>");
-            stationHtml.append("<span clas=\"\">" + $(name).html() + "</span>");
+            stationHtml.append("<span class=\"\">" + $(name).html() + "</span>");
             stationHtml.append("<br />");
-            stationHtml.append("<span clas=\"\">" + $(format).html() + "</span>");
+            stationHtml.append("<span class=\"\">" + $(format).html() + "</span>");
 
             $("#stationContainer").append(stationHtml);
         });
