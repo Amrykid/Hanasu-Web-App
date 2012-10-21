@@ -8,6 +8,7 @@ function nav(pagenum){
 		case 1:
 			p.fadeOut();
 			$("#stationsPage").fadeIn();
+                        getCatalogStations(); //You should move this to where you press Hanasu catalog
 			break;
 		case 2:
 			p.fadeOut();
@@ -15,6 +16,28 @@ function nav(pagenum){
 			break;
 	}
 }
+
+function getCatalogStations() {
+    //load the stations
+    $.get("/stations", function (data) {
+        var $xml = $(data);
+
+        $xml.find('Station').each(function (stationIndex, station) {
+            var stationHtml = $("<div></div>");
+            stationHtml.attr("id", "station");
+
+            var logo = $(station).find("Logo");
+            var name = $(station).find("Name");
+            var format = $(station).find("Format");
+
+            stationHtml.append("<img src=\"" + $(logo).html() + "\"/>");
+            stationHtml.append("<span clas=\"\">" + $(name).html() + "</span>");
+
+            $("#stationContainer").append(stationHtml);
+        });
+    });
+}
+
 
 function dialog(t,p){
 	$("#dialogI h1").html(t);
@@ -55,4 +78,19 @@ $("#cPlay").click(function(){
 		$.post("/pause");
 		$("#cPlay").attr('class','controlButton icon-play');
 	}
+});
+
+//Detects if Hanasu is playing a station.
+$.get("/isplaying", function(data){
+        isPlaying = data == 'true';
+
+        $("#cPlay").attr('class', isPlaying == true ? 'controlButton icon-pause' : 'controlButton icon-play');
+
+        if (isPlaying){
+                
+                //Since Hanasu is playing a station, grab its 'now playing' data and show it in a notification.
+                $.get("/nowplaying", function(track){
+                     notification("images/songexample.png","Now Playing",track);
+                });
+        }
 });
