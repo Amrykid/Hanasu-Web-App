@@ -36,6 +36,7 @@ function getCatalogStations() {
 
             stationHtml.append("<img src=\"" + $(logo).html() + "\"/>");
             stationHtml.append("<span clas=\"\">" + $(name).html() + "</span>");
+            stationHtml.append("<br />");
             stationHtml.append("<span clas=\"\">" + $(format).html() + "</span>");
 
             $("#stationContainer").append(stationHtml);
