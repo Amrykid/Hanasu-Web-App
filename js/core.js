@@ -84,6 +84,13 @@ function initializeApp() {
         })
         .error(function (data) {
             //failed to get a response from Hanasu, set isConnected to false
+            if (isConnected) {
+                //the last time the heartbeat ran, it was connected.
+                //lets alert the user that the connection as been lost.
+
+                dialog("Error", "Connection to Hanasu has been lost.");
+            }
+
             isConnected = false;
             isPlaying = false;
 
