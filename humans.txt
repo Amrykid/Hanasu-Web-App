@@ -15,3 +15,5 @@ Software: Sublime Text 2
 Hanasu - https://github.com/Amrykid/Hanasu/
 
 Font Awesome - http://fortawesome.github.com/Font-Awesome
+
+jQuery Timer - http://code.google.com/p/jquery-timer/
