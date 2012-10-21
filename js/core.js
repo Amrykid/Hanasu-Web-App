@@ -1,20 +1,24 @@
-function nav(pagenum){
-	var p = $(".page");
-	switch(pagenum){
-		case 0:
-			p.fadeOut();
-			$("#mainPage").fadeIn();
-			break;
-		case 1:
-			p.fadeOut();
-			$("#stationsPage").fadeIn();
-                        getCatalogStations(); //You should move this to where you press Hanasu catalog
-			break;
-		case 2:
-			p.fadeOut();
-			$("#settingsPage").fadeIn();
-			break;
-	}
+var isPlaying = false;
+var isConnected = true; //Assume true at first since it had to be connected to download the page.
+var currentSong = ""; //Holds on to the current so for display and checking for new songs.
+
+function nav(pagenum) {
+    var p = $(".page");
+    switch (pagenum) {
+        case 0:
+            p.fadeOut();
+            $("#mainPage").fadeIn();
+            break;
+        case 1:
+            p.fadeOut();
+            $("#stationsPage").fadeIn();
+            getCatalogStations(); //You should move this to where you press Hanasu catalog
+            break;
+        case 2:
+            p.fadeOut();
+            $("#settingsPage").fadeIn();
+            break;
+    }
 }
 
 function getCatalogStations() {
@@ -32,65 +36,101 @@ function getCatalogStations() {
 
             stationHtml.append("<img src=\"" + $(logo).html() + "\"/>");
             stationHtml.append("<span clas=\"\">" + $(name).html() + "</span>");
+            stationHtml.append("<span clas=\"\">" + $(format).html() + "</span>");
 
             $("#stationContainer").append(stationHtml);
         });
     });
 }
 
-
-function dialog(t,p){
-	$("#dialogI h1").html(t);
-	$("#dialogI p").html(p);
-	$("#dialogP").fadeIn();
-}
-
-function notification(i,t,a){
-	$("#songimage").attr("src", i);
-	$("#songname").html(t);
-	$("#songartist").html(a);
-	$("#notification").fadeIn(200);
-	setTimeout(function(){
-		$("#notification").fadeOut(1000);
-	}, 3000);
-}
-
-$("#logo").click(function(){nav(0);});
-$("#nButtonStations").click(function(){nav(1);});
-$("#nButtonSettings").click(function(){nav(2);});
-$("#dialogButton").click(function(){$("#dialogP").fadeOut();});
-$("#mD").click(function(){dialog("Error","Some random stuff happened. You should probably look into it.");});
-$("#nE").click(function(){notification("images/songexample.png","What the function","The sleep deprived programmers");});
-$("#nButtonFullscreen").click(function(){$(document).toggleFullScreen();});
-$(document).keydown(function(e){if(e.keyCode=='70'){e.preventDefault();$(document).toggleFullScreen();}});
-
-// Controls
-
-var isPlaying = false;
-
-$("#cPlay").click(function(){
-	if (isPlaying == false){
-		isPlaying = true;
-		$.post("/play");
-		$("#cPlay").attr('class','controlButton icon-pause');
-	} else {
-		isPlaying = false;
-		$.post("/pause");
-		$("#cPlay").attr('class','controlButton icon-play');
-	}
-});
-
-//Detects if Hanasu is playing a station.
-$.get("/isplaying", function(data){
+function detectPlayStatus() {
+    //Detects if Hanasu is playing a station.
+    $.get("/isplaying", function (data) {
         isPlaying = data == 'true';
 
         $("#cPlay").attr('class', isPlaying == true ? 'controlButton icon-pause' : 'controlButton icon-play');
 
-        if (isPlaying){
-                
-                //Since Hanasu is playing a station, grab its 'now playing' data and show it in a notification.
-                $.get("/nowplaying", function(track){
-                     notification("images/songexample.png","Now Playing",track);
-                });
+        if (isPlaying) {
+
+            //Since Hanasu is playing a station, grab its 'now playing' data and show it in a notification.
+            $.get("/nowplaying", function (track) {
+
+                if (track != currentSong) {
+                    //New song, so show a notification.
+                    currentSong = track;
+                    notification("images/songexample.png", "Now Playing", track);
+                }
+            });
         }
+    });
+}
+
+function initializeApp() {
+    //any important starting procedures, we can put here.
+
+    //initalize heartbeat timer
+    var heartBeatTimer = $.timer(function () {
+        //this runs every 5 seconds to check if theres a connection to Hanasu. 
+        //If there is, grab the current song. 
+        //If the current song is different from the stored current song, its a new song.
+
+        $.get("/ping")
+        .success(function (data) {
+            //got a response from Hanasu, so set isConnected to true
+            isConnected = true;
+
+            detectPlayStatus();
+        })
+        .error(function (data) {
+            //failed to get a response from Hanasu, set isConnected to false
+            isConnected = false;
+
+            currentSong = "";
+        });
+
+    });
+    heartBeatTimer.set({ time: 5000, autostart: true });
+
+
+}
+
+function dialog(t, p) {
+    $("#dialogI h1").html(t);
+    $("#dialogI p").html(p);
+    $("#dialogP").fadeIn();
+}
+
+function notification(i, t, a) {
+    $("#songimage").attr("src", i);
+    $("#songname").html(t);
+    $("#songartist").html(a);
+    $("#notification").fadeIn(200);
+    setTimeout(function () {
+        $("#notification").fadeOut(1000);
+    }, 3000);
+}
+
+$("#logo").click(function () { nav(0); });
+$("#nButtonStations").click(function () { nav(1); });
+$("#nButtonSettings").click(function () { nav(2); });
+$("#dialogButton").click(function () { $("#dialogP").fadeOut(); });
+$("#mD").click(function () { dialog("Error", "Some random stuff happened. You should probably look into it."); });
+$("#nE").click(function () { notification("images/songexample.png", "What the function", "The sleep deprived programmers"); });
+$("#nButtonFullscreen").click(function () { $(document).toggleFullScreen(); });
+$(document).keydown(function (e) { if (e.keyCode == '70') { e.preventDefault(); $(document).toggleFullScreen(); } });
+
+// Controls
+
+$("#cPlay").click(function () {
+    if (isPlaying == false) {
+        isPlaying = true;
+        $.post("/play");
+        $("#cPlay").attr('class', 'controlButton icon-pause');
+    } else {
+        isPlaying = false;
+        $.post("/pause");
+        $("#cPlay").attr('class', 'controlButton icon-play');
+    }
 });
+
+initializeApp(); //Starts the app
