@@ -8,6 +8,7 @@ function nav(pagenum){
 		case 1:
 			p.fadeOut();
 			$("#stationsPage").fadeIn();
+                        getCatalogStations(); //You should move this to where you press Hanasu catalog
 			break;
 		case 2:
 			p.fadeOut();
@@ -15,6 +16,28 @@ function nav(pagenum){
 			break;
 	}
 }
+
+function getCatalogStations() {
+    //load the stations
+    $.get("/stations", function (data) {
+        var $xml = $(data);
+
+        $xml.find('Station').each(function (stationIndex, station) {
+            var stationHtml = $("<div></div>");
+            stationHtml.attr("id", "station");
+
+            var logo = $(station).find("Logo");
+            var name = $(station).find("Name");
+            var format = $(station).find("Format");
+
+            stationHtml.append("<img src=\"" + $(logo).html() + "\"/>");
+            stationHtml.append("<span clas=\"\">" + $(name).html() + "</span>");
+
+            $("#stationContainer").append(stationHtml);
+        });
+    });
+}
+
 
 function dialog(t,p){
 	$("#dialogI h1").html(t);
