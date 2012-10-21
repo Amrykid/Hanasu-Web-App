@@ -69,6 +69,8 @@ function detectPlayStatus() {
 function initializeApp() {
     //any important starting procedures, we can put here.
 
+    $.ajaxSetup({ cache: false });
+
     //initalize heartbeat timer
     var heartBeatTimer = $.timer(function () {
         //this runs every 5 seconds to check if theres a connection to Hanasu. 
