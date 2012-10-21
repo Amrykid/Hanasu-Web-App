@@ -136,12 +136,12 @@ $("#cPlay").click(function () {
     if (isPlaying == false) {
         isPlaying = true;
         $.post("/play");
-        $("#cPlay").attr('class', 'controlButton icon-pause');
     } else {
         isPlaying = false;
         $.post("/pause");
-        $("#cPlay").attr('class', 'controlButton icon-play');
     }
+
+    $("#cPlay").attr('class', isPlaying == true ? 'controlButton icon-pause' : 'controlButton icon-play');
 });
 
 initializeApp(); //Starts the app
