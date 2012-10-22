@@ -117,9 +117,9 @@ function notification(i, t, a) {
     $("#songimage").attr("src", i);
     $("#songname").html(t);
     $("#songartist").html(a);
-    $("#notification").fadeIn(200);
+    $("#notification").show('slide', {direction: 'right'}, 500);
     setTimeout(function () {
-        $("#notification").fadeOut(1000);
+        $("#notification").hide('slide', {direction: 'right'}, 500);
     }, 3000);
 }
 
@@ -147,3 +147,5 @@ $("#cPlay").click(function () {
 });
 
 initializeApp(); //Starts the app
+
+$(document).ready(function(){$("#loadingSplash").fadeOut();});
