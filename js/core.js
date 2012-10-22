@@ -66,10 +66,23 @@ function detectPlayStatus() {
     });
 }
 
+function localizeApp() {
+    $('i18n-name').each(function (index, element) {
+        var key = $(element).attr('i18n-name');
+
+        $.get("/getlocalizedvalue?key=" + key, function (data) {
+            $(element).html(data);
+        });
+    });
+}
+
 function initializeApp() {
     //any important starting procedures, we can put here.
 
     $.ajaxSetup({ cache: false });
+
+    localizeApp(); //Begin translating the app.
+
 
     //initalize heartbeat timer
     var heartBeatTimer = $.timer(function () {
