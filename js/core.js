@@ -142,10 +142,13 @@ $("#cPlay").click(function () {
         isPlaying = false;
         $.post("/pause");
     }
-
     $("#cPlay").attr('class', isPlaying == true ? 'controlButton icon-pause' : 'controlButton icon-play');
 });
 
 initializeApp(); //Starts the app
 
-$(document).ready(function(){$("#loadingSplash").fadeOut();});
+$(document).ready(function(){
+    setTimeout(function () {
+        $("#loadingSplash").fadeOut();
+    }, 1000);
+});
