@@ -28,16 +28,16 @@ function getCatalogStations() {
 
         $xml.find('Station').each(function (stationIndex, station) {
             var stationHtml = $("<div></div>");
-            stationHtml.attr("id", "station");
+            stationHtml.attr("class", "station");
 
             var logo = $(station).find("Logo");
             var name = $(station).find("Name");
-            var format = $(station).find("Format");
+            var language = $(station).find("Language");
 
             stationHtml.append("<img src=\"" + $(logo).html() + "\"/>");
-            stationHtml.append("<span class=\"\">" + $(name).html() + "</span>");
+            stationHtml.append("<span class=\"sTitle sName\">" + $(name).html() + "</span>");
             stationHtml.append("<br />");
-            stationHtml.append("<span class=\"\">" + $(format).html() + "</span>");
+            stationHtml.append("<span class=\"sTitle sLanguage\">" + $(language).html() + "</span>");
 
             $("#stationContainer").append(stationHtml);
         });
@@ -66,10 +66,23 @@ function detectPlayStatus() {
     });
 }
 
+function localizeApp() {
+    $('[i18n-name]').each(function (index, element) {
+        var key = $(element).attr('i18n-name');
+
+        $.get("/getlocalizedvalue?key=" + key, function (data) {
+            $(element).html(data);
+        });
+    });
+}
+
 function initializeApp() {
     //any important starting procedures, we can put here.
 
     $.ajaxSetup({ cache: false });
+
+    localizeApp(); //Begin translating the app.
+
 
     //initalize heartbeat timer
     var heartBeatTimer = $.timer(function () {
