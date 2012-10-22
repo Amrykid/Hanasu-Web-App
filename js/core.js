@@ -32,12 +32,12 @@ function getCatalogStations() {
 
             var logo = $(station).find("Logo");
             var name = $(station).find("Name");
-            var format = $(station).find("Format");
+            var language = $(station).find("Language");
 
             stationHtml.append("<img src=\"" + $(logo).html() + "\"/>");
-            stationHtml.append("<span class=\"\">" + $(name).html() + "</span>");
+            stationHtml.append("<span class=\"sTitle sName\">" + $(name).html() + "</span>");
             stationHtml.append("<br />");
-            stationHtml.append("<span class=\"\">" + $(format).html() + "</span>");
+            stationHtml.append("<span class=\"sTitle sLanguage\">" + $(language).html() + "</span>");
 
             $("#stationContainer").append(stationHtml);
         });
