@@ -28,7 +28,7 @@ function getCatalogStations() {
 
         $xml.find('Station').each(function (stationIndex, station) {
             var stationHtml = $("<div></div>");
-            stationHtml.attr("id", "station");
+            stationHtml.attr("class", "station");
 
             var logo = $(station).find("Logo");
             var name = $(station).find("Name");
