@@ -17,10 +17,10 @@
 			<button id="cFoward" class="controlButton icon-step-forward"></button>
 		</div>
 		<nav id="headerRight">
-			<button class="navButton icon-headphones"><span class="navButtonI">Playing</span></button>
-			<button id="nButtonStations" class="navButton icon-music"><span class="navButtonI">Stations</span></button>
-			<button id="nButtonSettings" class="navButton icon-cog"><span class="navButtonI">Settings</span></button>
-			<button id="nButtonFullscreen" class="navButton icon-fullscreen"><span class="navButtonI">Fullscreen</span></button>
+			<button class="navButton icon-headphones"><span class="navButtonI" i18n-name="NowPlayingGridHeader"></span></button>
+			<button id="nButtonStations" class="navButton icon-music"><span class="navButtonI" i18n-name="StationsKey"></span></button>
+			<button id="nButtonSettings" class="navButton icon-cog"><span class="navButtonI" i18n-name="SettingsKey"></span></button>
+			<button id="nButtonFullscreen" class="navButton icon-fullscreen"><span class="navButtonI" i18n-name="FullscreenKey"></span></button>
 		</nav>
 	</header>
 	<div id="mainPage" class="page">
@@ -29,10 +29,10 @@
 	</div>
 	<div id="stationsPage" class="page" style="display:none;">
 		<div id="stationsLeft" class="leftBar">
-			<h1>Stations</h1>
+			<h1 i18n-name="StationsKey"></h1>
 			<ul>
 				<li><span i18n-name="HanasuCatalogTreeViewHeader"></span></li>
-				<li><span>Custom Catalog</span></li>
+				<li><span i18n-name="CustomStationsTreeViewHeader"></span></li>
 			</ul>
 		</div>
 		<div id="stationContainer">
@@ -46,7 +46,7 @@
 	</div>
 	<div id="settingsPage" class="page" style="display:none;">
 		<div id="settingsLeft" class="leftBar">
-			<h1>Settings</h1>
+			<h1 i18n-name="SettingsKey"></h1>
 			<ul>
 				<li><span>Web to Client Connection</span></li>
 				<li><span>Sound</span></li>
@@ -61,7 +61,7 @@
 				<div id="dialogI">
 					<h1></h1>
 					<p></p>
-					<button id="dialogButton" class="button">Close</button>
+					<button id="dialogButton" class="button" i18n-name="GenericAffirmativeButton"></button>
 				</div>
 			</div>
 		</div>
