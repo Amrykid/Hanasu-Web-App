@@ -40,14 +40,18 @@ function getCatalogStations() {
 
             stationHtml.append("<img src=\"" + $(logo).html() + "\"/>");
             stationHtml.append("<span class=\"sTitle sName\">" + $(name).html() + "</span>");
-            stationHtml.append("<br />");
+            //stationHtml.append("<br />");
             stationHtml.append("<span class=\"sTitle sLanguage\">" + $(language).html() + "</span>");
+            stationHtml.append("<div class=\"stationsStream\" style=\"\"><div class=\"stationsStreamI\"><ul></ul></div></div>");
 
             $("#stationContainer").append(stationHtml);
         });
 
         $(".station").click(function (data) {
             var statName = $(jQuery(this).children("span")[0]).html();
+
+            var targetElement = jQuery(this);
+
             $.get("/getstationstreams?station=" + statName, function (data) {
                 var ul = $($(jQuery(this).children("div")[0]).children("div")[0]).children("ul");
                 ul.html("");
@@ -61,7 +65,9 @@ function getCatalogStations() {
                     var title = $(stream).find("Title").html();
                     var url = $(stream).find("Url").html();
 
-                    $($(jQuery(this).children("div")[0]).children("div")[0]).children("ul").append("<li class\"ssConnection\"><span class=\"ssName\">" + title + "</span><span class=\"ssLocation\">" + url + "</span></li>");
+                    var firstDiv = $(targetElement).children("div")[0];
+                    var secondDiv = $(firstDiv).children("div")[0]
+                    $($(secondDiv).children("ul")[0]).append("<li class=\"ssConnection\"><span class=\"ssName\">" + title + "</span><span class=\"ssLocation\">" + url + "</span></li>");
 
                 });
 
