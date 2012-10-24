@@ -21,7 +21,7 @@ function nav(pagenum) {
     }
 }
 
-$("#hanasuCatalogButton").click(function(){
+$("#hanasuCatalogButton").click(function () {
     getCatalogStations(); //You should move this to where you press Hanasu catalog
 });
 
@@ -50,40 +50,48 @@ function getCatalogStations() {
         $(".station").click(function (data) {
             var statName = $(jQuery(this).children("span")[0]).html();
 
+            if (isConnected == false) {
+                dialog("Error", "Can't play station: " + statName + ". You are not connected to Hanasu.", "Close");
+                return;
+            }
+
             var targetElement = jQuery(this);
+            var ul = $($(jQuery(this).children("div")[0]).children("div")[0]).children("ul");
 
-            $.get("/getstationstreams?station=" + statName, function (data) {
-                var ul = $($(jQuery(this).children("div")[0]).children("div")[0]).children("ul");
-                ul.html("");
+            if (ul.html() == "") {
+                //Since we never retrieved the stations, fetch them.
+                $.get("/getstationstreams?station=" + statName, function (data) {
 
-                var $xml = $(data);
-                var station = $xml[0];
-                var streams = $(station)[0];
 
-                $(streams).find('Stream').each(function (Index, stream) {
+                    var $xml = $(data);
+                    var station = $xml[0];
+                    var streams = $(station)[0];
 
-                    var title = $(stream).find("Title").html();
-                    var url = $(stream).find("Url").html();
+                    $(streams).find('Stream').each(function (Index, stream) {
 
-                    var firstDiv = $(targetElement).children("div")[0];
-                    var secondDiv = $(firstDiv).children("div")[0]
-                    $($(secondDiv).children("ul")[0]).append("<li class=\"ssConnection\"><span class=\"ssName\">" + title + "</span><span class=\"ssLocation\">" + url + "</span></li>");
+                        var title = $(stream).find("Title").html();
+                        var url = $(stream).find("Url").html();
 
+                        var firstDiv = $(targetElement).children("div")[0];
+                        var secondDiv = $(firstDiv).children("div")[0]
+                        $($(secondDiv).children("ul")[0]).append("<li class=\"ssConnection\"><span class=\"ssName\">" + title + "</span><span class=\"ssLocation\">" + url + "</span></li>");
+
+                    });
+
+                    $(".ssConnection").click(function (data) {
+                        var statUrl = $(jQuery(this).children("span")[1]).html();
+                        $.post("/play2?station=" + statName + "&url=" + statUrl);
+                    });
                 });
-
-                $(".ssConnection").click(function (data) {
-                    var statUrl = $(jQuery(this).children("span")[1]).html();
-                    $.post("/play2?station=" + statName + "&url=" + statUrl);
-                });
-            });
+            }
 
             var heightis = $(this).height();
             if (heightis == 120) {
                 $(this).animate({ height: "240px" }, 400);
-                $(".station .stationsStream").show();
+                $(targetedElement).find(".stationsStream").show();
             } else {
                 $(this).animate({ height: "120px" }, 400);
-                $(".station .stationsStream").hide();
+                $(targetedElement).find(".stationsStream").hide();
             }
         });
     });
@@ -104,7 +112,10 @@ function detectPlayStatus() {
                 if (track != currentSong) {
                     //New song, so show a notification.
                     currentSong = track;
-                    notification("images/songexample.png", "Now Playing", track);
+
+                    if (track != " - ") {
+                        notification("images/songexample.png", "Now Playing", track);
+                    }
                 }
             });
         }
@@ -148,7 +159,7 @@ function initializeApp() {
                 //the last time the heartbeat ran, it was connected.
                 //lets alert the user that the connection as been lost.
 
-                dialog("Error", "Connection to Hanasu has been lost.","Close");
+                dialog("Error", "Connection to Hanasu has been lost.", "Close");
             }
 
             isConnected = false;
@@ -165,7 +176,7 @@ function initializeApp() {
 
 }
 
-function dialog(t, p ,n) {
+function dialog(t, p, n) {
     $("#dialogI h1").html(t);
     $("#dialogI p").html(p);
     $("#dialogButton").html(n)
@@ -176,9 +187,9 @@ function notification(i, t, a) {
     $("#songimage").attr("src", i);
     $("#songname").html(t);
     $("#songartist").html(a);
-    $("#notification").show('slide', {direction: 'right'}, 500);
+    $("#notification").show('slide', { direction: 'right' }, 500);
     setTimeout(function () {
-        $("#notification").hide('slide', {direction: 'right'}, 500);
+        $("#notification").hide('slide', { direction: 'right' }, 500);
     }, 3000);
 }
 
@@ -204,7 +215,7 @@ $("#cPlay").click(function () {
 
 initializeApp(); //Starts the app
 
-$(document).ready(function(){
+$(document).ready(function () {
     setTimeout(function () {
         $("#loadingSplash").fadeOut();
     }, 1000);
@@ -224,11 +235,11 @@ $(document).keydown(function (e) {
     }
 });
 
-$("#toggleTestElements").click(function(){
+$("#toggleTestElements").click(function () {
     $(".testElemnt").toggle();
 });
 
-$("#mD").click(function () { dialog("Error", "Some random stuff happened. You should probably look into it.","Close"); });
+$("#mD").click(function () { dialog("Error", "Some random stuff happened. You should probably look into it.", "Close"); });
 $("#nE").click(function () { notification("images/songexample.png", "What the function", "The sleep deprived programmers"); });
 
 // Temp Web Only and Client mode switching
@@ -236,7 +247,7 @@ $("#nE").click(function () { notification("images/songexample.png", "What the fu
 var isWeb = false; // Defult off
 
 $("#toggleMode").click(function () {
-    if (isWeb == false){
+    if (isWeb == false) {
         isWeb = true;
     } else {
         isWeb = false;
@@ -244,13 +255,13 @@ $("#toggleMode").click(function () {
 });
 
 $(".station").click(function () {
-    if (isWeb == true){
+    if (isWeb == true) {
         var heightis = $(this).height();
-        if (heightis == 120){
-            $(this).animate({height:"240px"},400);
+        if (heightis == 120) {
+            $(this).animate({ height: "240px" }, 400);
             $(".station .stationsStream").show();
         } else {
-            $(this).animate({height:"120px"},400);
+            $(this).animate({ height: "120px" }, 400);
             $(".station .stationsStream").hide();
         }
     }
