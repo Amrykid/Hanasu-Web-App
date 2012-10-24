@@ -158,8 +158,6 @@ $("#logo").click(function () { nav(0); });
 $("#nButtonStations").click(function () { nav(1); });
 $("#nButtonSettings").click(function () { nav(2); });
 $("#dialogButton").click(function () { $("#dialogP").fadeOut(); });
-$("#mD").click(function () { dialog("Error", "Some random stuff happened. You should probably look into it.","Close"); });
-$("#nE").click(function () { notification("images/songexample.png", "What the function", "The sleep deprived programmers"); });
 $("#nButtonFullscreen").click(function () { $(document).toggleFullScreen(); });
 $(document).keydown(function (e) { if (e.keyCode == '70') { e.preventDefault(); $(document).toggleFullScreen(); } });
 
@@ -184,6 +182,27 @@ $(document).ready(function(){
     }, 1000);
 });
 
+// Testing Features
+
+$(function () {
+    $(".testElemnt").hide();
+    $("#testing").draggable();
+});
+
+$(document).keydown(function (e) {
+    if (e.keyCode == '192') {
+        e.preventDefault();
+        $("#testing").toggle();
+    }
+});
+
+$("#toggleTestElements").click(function(){
+    $(".testElemnt").toggle();
+});
+
+$("#mD").click(function () { dialog("Error", "Some random stuff happened. You should probably look into it.","Close"); });
+$("#nE").click(function () { notification("images/songexample.png", "What the function", "The sleep deprived programmers"); });
+
 // Temp Web Only and Client mode switching
 
 var isWeb = false; // Defult off
@@ -193,26 +212,6 @@ $("#toggleMode").click(function () {
         isWeb = true;
     } else {
         isWeb = false;
-    }
-});
-
-$(function() {
-    $(".testElemnt").hide();
-    $("#testing").draggable();
-});
-
-var isTest = false;
-
-$(document).keydown(function (e) {
-    if (e.keyCode == '192') {
-        e.preventDefault();
-        if (isTest == false){
-            isTest = true;
-            $(".testElemnt").toggle();
-        } else {
-            isTest = false;
-            $(".testElemnt").toggle();
-        }
     }
 });
 
@@ -228,4 +227,3 @@ $(".station").click(function () {
         }
     }
 });
-
