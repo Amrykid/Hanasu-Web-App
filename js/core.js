@@ -41,6 +41,11 @@ function getCatalogStations() {
 
             $("#stationContainer").append(stationHtml);
         });
+        
+        $(".station").click(function (data) {
+            $(this).animate({height:"240px"},400);
+            $(".station .stationsStream").show();
+        });
     });
 }
 
@@ -103,7 +108,7 @@ function initializeApp() {
                 //the last time the heartbeat ran, it was connected.
                 //lets alert the user that the connection as been lost.
 
-                dialog("Error", "Connection to Hanasu has been lost.");
+                dialog("Error", "Connection to Hanasu has been lost.","Close");
             }
 
             isConnected = false;
@@ -120,9 +125,10 @@ function initializeApp() {
 
 }
 
-function dialog(t, p) {
+function dialog(t, p ,n) {
     $("#dialogI h1").html(t);
     $("#dialogI p").html(p);
+    $("#dialogButton").html(n)
     $("#dialogP").fadeIn();
 }
 
@@ -140,7 +146,7 @@ $("#logo").click(function () { nav(0); });
 $("#nButtonStations").click(function () { nav(1); });
 $("#nButtonSettings").click(function () { nav(2); });
 $("#dialogButton").click(function () { $("#dialogP").fadeOut(); });
-$("#mD").click(function () { dialog("Error", "Some random stuff happened. You should probably look into it."); });
+$("#mD").click(function () { dialog("Error", "Some random stuff happened. You should probably look into it.","Close"); });
 $("#nE").click(function () { notification("images/songexample.png", "What the function", "The sleep deprived programmers"); });
 $("#nButtonFullscreen").click(function () { $(document).toggleFullScreen(); });
 $(document).keydown(function (e) { if (e.keyCode == '70') { e.preventDefault(); $(document).toggleFullScreen(); } });
