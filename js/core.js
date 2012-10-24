@@ -38,15 +38,45 @@ function getCatalogStations() {
             stationHtml.append("<span class=\"sTitle sName\">" + $(name).html() + "</span>");
             stationHtml.append("<br />");
             stationHtml.append("<span class=\"sTitle sLanguage\">" + $(language).html() + "</span>");
+            stationHtml.append("<div class\"stationsStream\" style=\"display: none; \"><div class\"stationsStreamI\"><ul></ul>");
+            stationHtml.append("</div></div>");
 
             $("#stationContainer").append(stationHtml);
         });
 
         $(".station").click(function (data) {
             var statName = $(jQuery(this).children("span")[0]).html();
-            $.post("/play2?station=" + statName);
-            $(this).animate({height:"240px"},400);
-            $(".station .stationsStream").show();
+            $.get("/getstationstreams?station=" + statName, function (data) {
+                var ul = $($(jQuery(this).children("div")[0]).children("div")[0]).children("ul");
+                ul.html("");
+
+                var $xml = $(data);
+                var station = $xml[0];
+                var streams = $(station)[0];
+
+                $(streams).find('Stream').each(function (Index, stream) {
+
+                    var title = $(stream).find("Title").html();
+                    var url = $(stream).find("Url").html();
+
+                    $($(jQuery(this).children("div")[0]).children("div")[0]).children("ul").append("<li class\"ssConnection\"><span class=\"ssName\">" + title + "</span><span class=\"ssLocation\">" + url + "</span></li>");
+
+                });
+
+                $(".ssConnection").click(function (data) {
+                    var statUrl = $(jQuery(this).children("span")[1]).html();
+                    $.post("/play2?station=" + statName + "&url=" + statUrl);
+                });
+            });
+
+            var heightis = $(this).height();
+            if (heightis == 120) {
+                $(this).animate({ height: "240px" }, 400);
+                $(".station .stationsStream").show();
+            } else {
+                $(this).animate({ height: "120px" }, 400);
+                $(".station .stationsStream").hide();
+            }
         });
     });
 }
