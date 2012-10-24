@@ -38,8 +38,6 @@ function getCatalogStations() {
             stationHtml.append("<span class=\"sTitle sName\">" + $(name).html() + "</span>");
             stationHtml.append("<br />");
             stationHtml.append("<span class=\"sTitle sLanguage\">" + $(language).html() + "</span>");
-            stationHtml.append("<div class\"stationsStream\" style=\"display: none; \"><div class\"stationsStreamI\"><ul></ul>");
-            stationHtml.append("</div></div>");
 
             $("#stationContainer").append(stationHtml);
         });
