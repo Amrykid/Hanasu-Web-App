@@ -21,6 +21,10 @@ function nav(pagenum) {
     }
 }
 
+$("#hanasuCatalogButton").click(function(){
+    getCatalogStations(); //You should move this to where you press Hanasu catalog
+});
+
 function getCatalogStations() {
     //load the stations
     $.get("/stations", function (data) {
@@ -179,3 +183,20 @@ $(document).ready(function(){
         $("#loadingSplash").fadeOut();
     }, 1000);
 });
+
+var isWeb = false;
+
+if (isWeb == true){
+    $(".station").click(function (data) {
+        var heightis = $(this).height();
+        if (heightis == 120){
+            $(this).animate({height:"240px"},400);
+            $(".station .stationsStream").show();
+        } else {
+            $(this).animate({height:"120px"},400);
+            $(".station .stationsStream").hide();
+        }
+    });
+} else {
+
+}
