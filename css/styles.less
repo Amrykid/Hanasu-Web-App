@@ -37,14 +37,18 @@ table{border-collapse:collapse;border-spacing:0;}
 	min-width: 90px;
 	height: 32px;
 	padding: 4px 14px;
+	line-height: 16px;
+	font-family: Segoe UI;
 	background-color: @white;
-	border: none;
+	border: 4px solid @offwhite;
 	color: @darkgrey;}
 .button:hover{
 	cursor: pointer;}
 .button:active{
 	color: @white;
 	background-color: rgba(0,0,0,1)}
+.dialogButton{
+	border: none;}
 .leftBar{
 	float: left;
 	width: 300px;
@@ -68,6 +72,16 @@ table{border-collapse:collapse;border-spacing:0;}
 	line-height: 40px;
 	text-decoration: none;
 	color: #ffffff;}
+/**** Testing ****/
+#testing{
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	padding: 20px;
+	height: 250px;
+	background-color: rgba(0,0,0,0.5);}
+#testing .button{
+	margin: 20px;}
 /**** Main ****/
 html, body{
 	width: 100%;
@@ -76,10 +90,6 @@ html, body{
 	font-weight: lighter;
 	background-color:@darkgrey;
 	overflow: hidden;}
-/**** Scrollbar Test ****/
-
-
-/********/
 header{
 	background-color: @red;
 	height: 60px;
@@ -215,6 +225,7 @@ header{
 	right: 10px;
 	display: block;
 	color: @offwhite;}
+/**** Loading Splash ****/	
 #loadingSplash{
 	z-index: 4;
 	position: absolute;
@@ -237,8 +248,8 @@ header{
 	width: 400px;
 	text-align: center;}
 /**** Main Page ****/
-#mD, #nE{
-	margin: 20px;}
+#mainPage{
+}
 /**** Stations Page ****/
 #stationsPage{}
 #stationContainer{

@@ -184,10 +184,40 @@ $(document).ready(function(){
     }, 1000);
 });
 
-var isWeb = false;
+// Temp Web Only and Client mode switching
 
-if (isWeb == true){
-    $(".station").click(function (data) {
+var isWeb = false; // Defult off
+
+$("#toggleMode").click(function () {
+    if (isWeb == false){
+        isWeb = true;
+    } else {
+        isWeb = false;
+    }
+});
+
+$(function() {
+    $(".testElemnt").hide();
+    $("#testing").draggable();
+});
+
+var isTest = false;
+
+$(document).keydown(function (e) {
+    if (e.keyCode == '192') {
+        e.preventDefault();
+        if (isTest == false){
+            isTest = true;
+            $(".testElemnt").toggle();
+        } else {
+            isTest = false;
+            $(".testElemnt").toggle();
+        }
+    }
+});
+
+$(".station").click(function () {
+    if (isWeb == true){
         var heightis = $(this).height();
         if (heightis == 120){
             $(this).animate({height:"240px"},400);
@@ -196,7 +226,6 @@ if (isWeb == true){
             $(this).animate({height:"120px"},400);
             $(".station .stationsStream").hide();
         }
-    });
-} else {
+    }
+});
 
-}
