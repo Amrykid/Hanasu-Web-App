@@ -41,6 +41,11 @@ function getCatalogStations() {
 
             $("#stationContainer").append(stationHtml);
         });
+
+	$(".station").click(function (data) {
+	    var statName = $(this).(".sTitle sName")[0].html();
+	    $.post("/play2?station=" + statName);
+	});
     });
 }
 
