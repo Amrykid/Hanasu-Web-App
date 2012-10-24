@@ -21,6 +21,10 @@ function nav(pagenum) {
     }
 }
 
+$("#hanasuCatalogButton").click(function(){
+    getCatalogStations(); //You should move this to where you press Hanasu catalog
+});
+
 function getCatalogStations() {
     //load the stations
     $.get("/stations", function (data) {
@@ -176,8 +180,6 @@ $("#logo").click(function () { nav(0); });
 $("#nButtonStations").click(function () { nav(1); });
 $("#nButtonSettings").click(function () { nav(2); });
 $("#dialogButton").click(function () { $("#dialogP").fadeOut(); });
-$("#mD").click(function () { dialog("Error", "Some random stuff happened. You should probably look into it.","Close"); });
-$("#nE").click(function () { notification("images/songexample.png", "What the function", "The sleep deprived programmers"); });
 $("#nButtonFullscreen").click(function () { $(document).toggleFullScreen(); });
 $(document).keydown(function (e) { if (e.keyCode == '70') { e.preventDefault(); $(document).toggleFullScreen(); } });
 
@@ -200,4 +202,50 @@ $(document).ready(function(){
     setTimeout(function () {
         $("#loadingSplash").fadeOut();
     }, 1000);
+});
+
+// Testing Features
+
+$(function () {
+    $(".testElemnt").hide();
+    $("#testing").draggable();
+});
+
+$(document).keydown(function (e) {
+    if (e.keyCode == '192') {
+        e.preventDefault();
+        $("#testing").toggle();
+    }
+});
+
+$("#toggleTestElements").click(function(){
+    $(".testElemnt").toggle();
+});
+
+$("#mD").click(function () { dialog("Error", "Some random stuff happened. You should probably look into it.","Close"); });
+$("#nE").click(function () { notification("images/songexample.png", "What the function", "The sleep deprived programmers"); });
+
+// Temp Web Only and Client mode switching
+
+var isWeb = false; // Defult off
+
+$("#toggleMode").click(function () {
+    if (isWeb == false){
+        isWeb = true;
+    } else {
+        isWeb = false;
+    }
+});
+
+$(".station").click(function () {
+    if (isWeb == true){
+        var heightis = $(this).height();
+        if (heightis == 120){
+            $(this).animate({height:"240px"},400);
+            $(".station .stationsStream").show();
+        } else {
+            $(this).animate({height:"120px"},400);
+            $(".station .stationsStream").hide();
+        }
+    }
 });
