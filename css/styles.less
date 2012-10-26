@@ -23,9 +23,27 @@ table{border-collapse:collapse;border-spacing:0;}
 @offwhite:rgba(200,200,200,1);
 @offwhite2:rgba(180,180,180,1);
 @red:rgba(169,7,7,1);
+/**** Main ****/
 .mainfont{
 	font-family: Segoe UI;
 	font-weight: lighter;}
+::-webkit-scrollbar {
+	width: 10px;}
+::-webkit-scrollbar-track {
+	border-radius: 0;}
+::-webkit-scrollbar-thumb {
+	margin: 2px;
+	background-color: rgba(200,200,200,1);}
+::-webkit-scrollbar-thumb:window-inactive {
+	background: rgba(100,100,100,0.4);}
+html, body{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	font-family: 'Segoe UI Light', 'Open Sans', Arial, sans-serif;
+	font-weight: lighter;
+	background-color:@darkgrey;
+	overflow: hidden;}
 /**** Common ****/
 .page{
 	width: 100%;
@@ -72,6 +90,40 @@ table{border-collapse:collapse;border-spacing:0;}
 	line-height: 40px;
 	text-decoration: none;
 	color: #ffffff;}
+.inPageContent{
+	float: left;
+	padding: 20px;}
+/** Forms **/
+.radioButton{
+	display: block;
+	float: left;
+	margin: 20px 20px;}
+.radioButton:first-child{
+	margin: 20px 20px 20px 0;}
+.radioButton input{
+	color: #fffff;
+	border: 2px;
+	line-height: 22px;
+	background-color: #ffffff;}
+input[type="radio"]{
+	display: inline-block;
+	display: none;
+	position: relative;}
+input[type="radio"] + span::before{
+	vertical-align: middle;
+	display: inline-block;
+	content: "";
+	width: 22px;
+	height: 22px;
+	margin: 0 10px 0 0;
+	background-color: rgba(0,0,0,0);
+	border: 2px #b9b9b9  solid;
+	box-shadow:inset 0 0 0 5px @darkgrey;
+	border-radius: 18px;}
+input[type="radio"]:checked + span::before{
+	background-color: #ffffff;
+	border: 2px #b9b9b9  solid;
+	box-shadow:inset 0 0 0 5px @darkgrey;}
 /**** Testing ****/
 #testing{
 	position: absolute;
@@ -81,15 +133,8 @@ table{border-collapse:collapse;border-spacing:0;}
 	height: 250px;
 	background-color: rgba(0,0,0,0.5);}
 #testing .button{
-	margin: 20px;}
-/**** Main ****/
-html, body{
-	width: 100%;
-	height: 100%;
-	font-family: Segoe UI;
-	font-weight: lighter;
-	background-color:@darkgrey;
-	overflow: hidden;}
+	margin: 20px 0;}
+/****  ****/
 header{
 	background-color: @red;
 	height: 60px;
@@ -253,8 +298,7 @@ header{
 	width: 400px;
 	text-align: center;}
 /**** Main Page ****/
-#mainPage{
-}
+#mainPage{}
 /**** Stations Page ****/
 #stationsPage{}
 #stationContainer{
@@ -323,3 +367,6 @@ header{
 	border: none;}
 /**** Settings Page ****/
 #settingsPage #settingsLeft{}
+#settingsPage h1{
+	font-weight: lighter;
+	font-size: 40px;}
