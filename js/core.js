@@ -172,41 +172,41 @@ function initializeApp() {
 
         localizeApp(); //Begin translating the app.
 
-        document.body.appendChild("<script src=\"js/jquery.timer.js\"></script>");
+        $.getScript("js/jquery.timer.js", function (data, textStatus, jqxhr) {
 
+            //initalize heartbeat timer
+            var heartBeatTimer = $.timer(function () {
+                //this runs every 5 seconds to check if theres a connection to Hanasu. 
+                //If there is, grab the current song. 
+                //If the current song is different from the stored current song, its a new song.
 
-        //initalize heartbeat timer
-        var heartBeatTimer = $.timer(function () {
-            //this runs every 5 seconds to check if theres a connection to Hanasu. 
-            //If there is, grab the current song. 
-            //If the current song is different from the stored current song, its a new song.
+                $.get("/ping")
+                .success(function (data) {
+                    //got a response from Hanasu, so set isConnected to true
+                    isConnected = true;
 
-            $.get("/ping")
-        .success(function (data) {
-            //got a response from Hanasu, so set isConnected to true
-            isConnected = true;
+                    detectPlayStatus();
+                })
+                .error(function (data) {
+                    //failed to get a response from Hanasu, set isConnected to false
+                    if (isConnected) {
+                        //the last time the heartbeat ran, it was connected.
+                        //lets alert the user that the connection as been lost.
 
-            detectPlayStatus();
-        })
-        .error(function (data) {
-            //failed to get a response from Hanasu, set isConnected to false
-            if (isConnected) {
-                //the last time the heartbeat ran, it was connected.
-                //lets alert the user that the connection as been lost.
+                        dialog("Error", "Connection to Hanasu has been lost.", "Close");
+                    }
 
-                dialog("Error", "Connection to Hanasu has been lost.", "Close");
-            }
+                    isConnected = false;
+                    isPlaying = false;
 
-            isConnected = false;
-            isPlaying = false;
+                    currentSong = "";
 
-            currentSong = "";
+                    $("#cPlay").attr('class', 'controlButton icon-play');
+                });
 
-            $("#cPlay").attr('class', 'controlButton icon-play');
+            });
+            heartBeatTimer.set({ time: 5000, autostart: true });
         });
-
-        });
-        heartBeatTimer.set({ time: 5000, autostart: true });
     }
 
 }
