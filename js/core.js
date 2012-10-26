@@ -135,18 +135,53 @@ function localizeApp() {
 function initializeApp() {
     //any important starting procedures, we can put here.
 
+    $(document).ready(function () {
+        setTimeout(function () {
+            $("#loadingSplash").fadeOut();
+        }, 1000);
+    });
+
     $.ajaxSetup({ cache: false });
 
-    localizeApp(); //Begin translating the app.
+    if (isWeb) {
+
+        // Temp Web Only and Client mode switching
+
+        $("#toggleMode").click(function () {
+            if (isWeb == false) {
+                isWeb = true;
+            } else {
+                isWeb = false;
+            }
+        });
+
+        $(".station").click(function () {
+            if (isWeb == true) {
+                var heightis = $(this).height();
+                if (heightis == 120) {
+                    $(this).animate({ height: "240px" }, 400);
+                    $(".station .stationsStream").show();
+                } else {
+                    $(this).animate({ height: "120px" }, 400);
+                    $(".station .stationsStream").hide();
+                }
+            }
+        });
+    }
+    else {
+
+        localizeApp(); //Begin translating the app.
+
+        document.body.appendChild("<script src=\"js/jquery.timer.js\"></script>");
 
 
-    //initalize heartbeat timer
-    var heartBeatTimer = $.timer(function () {
-        //this runs every 5 seconds to check if theres a connection to Hanasu. 
-        //If there is, grab the current song. 
-        //If the current song is different from the stored current song, its a new song.
+        //initalize heartbeat timer
+        var heartBeatTimer = $.timer(function () {
+            //this runs every 5 seconds to check if theres a connection to Hanasu. 
+            //If there is, grab the current song. 
+            //If the current song is different from the stored current song, its a new song.
 
-        $.get("/ping")
+            $.get("/ping")
         .success(function (data) {
             //got a response from Hanasu, so set isConnected to true
             isConnected = true;
@@ -170,9 +205,9 @@ function initializeApp() {
             $("#cPlay").attr('class', 'controlButton icon-play');
         });
 
-    });
-    heartBeatTimer.set({ time: 5000, autostart: true });
-
+        });
+        heartBeatTimer.set({ time: 5000, autostart: true });
+    }
 
 }
 
@@ -215,11 +250,6 @@ $("#cPlay").click(function () {
 
 initializeApp(); //Starts the app
 
-$(document).ready(function () {
-    setTimeout(function () {
-        $("#loadingSplash").fadeOut();
-    }, 1000);
-});
 
 // Testing Features
 
@@ -242,27 +272,3 @@ $("#toggleTestElements").click(function () {
 $("#mD").click(function () { dialog("Error", "Some random stuff happened. You should probably look into it.", "Close"); });
 $("#nE").click(function () { notification("images/songexample.png", "What the function", "The sleep deprived programmers"); });
 
-// Temp Web Only and Client mode switching
-
-var isWeb = false; // Defult off
-
-$("#toggleMode").click(function () {
-    if (isWeb == false) {
-        isWeb = true;
-    } else {
-        isWeb = false;
-    }
-});
-
-$(".station").click(function () {
-    if (isWeb == true) {
-        var heightis = $(this).height();
-        if (heightis == 120) {
-            $(this).animate({ height: "240px" }, 400);
-            $(".station .stationsStream").show();
-        } else {
-            $(this).animate({ height: "120px" }, 400);
-            $(".station .stationsStream").hide();
-        }
-    }
-});
