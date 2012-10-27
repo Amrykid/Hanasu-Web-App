@@ -1,7 +1,7 @@
 var isPlaying = false;
 var isConnected = true; //Assume true at first since it had to be connected to download the page.
 var currentSong = ""; //Holds on to the current so for display and checking for new songs.
-var currentStreamUrl = "";
+var currentStreamUrl = "http://momori.animenfo.com:8000";
 
 function nav(pagenum) {
     var p = $(".page");
