@@ -137,6 +137,14 @@ function notification(i, t, a) {
         $("#notification").hide('slide', { direction: 'right' }, 500);
     }, 3000);
 }
+function flyout(header, content) {
+    $("#flyoutheader").html(header);
+    $("#contentspan").html(content);
+    $("#flyout").show('slide', { direction: 'right' }, 500);
+    setTimeout(function () {
+        $("#flyout").hide('slide', { direction: 'right' }, 500);
+    }, 3000);
+}
 
 $("#logo").click(function () { nav(0); });
 $("#nButtonStations").click(function () { nav(1); });
