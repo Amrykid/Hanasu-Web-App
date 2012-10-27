@@ -1,6 +1,7 @@
 var isPlaying = false;
 var isConnected = true; //Assume true at first since it had to be connected to download the page.
 var currentSong = ""; //Holds on to the current so for display and checking for new songs.
+var currentStreamUrl = "";
 
 function nav(pagenum) {
     var p = $(".page");
@@ -149,10 +150,24 @@ $(document).keydown(function (e) { if (e.keyCode == '70') { e.preventDefault(); 
 $("#cPlay").click(function () {
     if (isPlaying == false) {
         isPlaying = true;
-        $.post("/play");
+
+        if (isWeb) {
+            $.post("/play");
+        }
+        else {
+            $("#jquery_jplayer").jPlayer("setMedia", { mp3: currentStreamUrl });
+            $("#jquery_jplayer").jPlayer("play");
+        }
     } else {
         isPlaying = false;
-        $.post("/pause");
+
+
+        if (isWeb) {
+            $("#jquery_jplayer").jPlayer("pause");
+        }
+        else {
+            $.post("/pause");
+        }
     }
     $("#cPlay").attr('class', isPlaying == true ? 'controlButton icon-pause' : 'controlButton icon-play');
 });

@@ -53,6 +53,7 @@ function getCatalogStations() {
 
                     $(".ssConnection").click(function (data) {
                         var statUrl = $(jQuery(this).children("span")[1]).html();
+                        currentStreamUrl = statUrl;
                         $.post("/play2?station=" + statName + "&url=" + statUrl);
                     });
                 });
