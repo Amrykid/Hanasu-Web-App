@@ -1,7 +1,7 @@
 var isPlaying = false;
 var isConnected = true; //Assume true at first since it had to be connected to download the page.
 var currentSong = ""; //Holds on to the current so for display and checking for new songs.
-var currentStreamUrl = "";
+var currentStreamUrl = "http://momori.animenfo.com:8000/;";
 
 function nav(pagenum) {
     var p = $(".page");
@@ -152,11 +152,11 @@ $("#cPlay").click(function () {
         isPlaying = true;
 
         if (isWeb) {
-            $.post("/play");
-        }
-        else {
             $("#jquery_jplayer").jPlayer("setMedia", { mp3: currentStreamUrl });
             $("#jquery_jplayer").jPlayer("play");
+        }
+        else {
+            $.post("/play");
         }
     } else {
         isPlaying = false;
