@@ -141,9 +141,10 @@ function flyout(header, content) {
     $("#flyoutheader").html(header);
     $("#contentspan").html(content);
     $("#flyout").show('slide', { direction: 'right' }, 500);
-    setTimeout(function () {
+
+    $("#flyoutclosebutton").click(function () {
         $("#flyout").hide('slide', { direction: 'right' }, 500);
-    }, 3000);
+    });
 }
 
 $("#logo").click(function () { nav(0); });
@@ -203,4 +204,5 @@ $("#toggleTestElements").click(function () {
 
 $("#mD").click(function () { dialog("Error", "Some random stuff happened. You should probably look into it.", "Close"); });
 $("#nE").click(function () { notification("images/songexample.png", "What the function", "The sleep deprived programmers"); });
+$("#fE").click(function () { flyout("Some Header", ""); });
 
