@@ -144,10 +144,12 @@ function notification(i, t, a) {
 function flyout(header, content) {
     $("#flyoutheader").html(header);
     $("#contentspan").html(content);
-    $("#flyout").show('slide', { direction: 'right' }, 500);
+    $("#flyout").fadeIn();
+    $("#flyoutI").show('slide', { direction: 'right' }, 500);
 
     $("#flyoutclosebutton").click(function () {
-        $("#flyout").hide('slide', { direction: 'right' }, 500);
+        $("#flyoutI").hide('slide', { direction: 'right' }, 500);
+        $("#flyout").fadeOut();
     });
 }
 
