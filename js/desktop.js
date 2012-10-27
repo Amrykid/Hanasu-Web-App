@@ -22,6 +22,7 @@ function getCatalogStations() {
 
         $(".station").click(function (data) {
             var statName = $(jQuery(this).children("span")[0]).html();
+            var statLogo = $(jQuery(this).children("img")[0]).attr("src");
 
             if (isConnected == false) {
                 dialog("Error", "Can't play station: " + statName + ". You are not connected to Hanasu.", "Close");
@@ -53,7 +54,9 @@ function getCatalogStations() {
 
                     $(".ssConnection").click(function (data) {
                         var statUrl = $(jQuery(this).children("span")[1]).html();
+                        currentStationName = statName;
                         currentStreamUrl = statUrl;
+                        currentStationLogo = statLogo;
                         $.post("/play2?station=" + statName + "&url=" + statUrl);
                     });
                 });
@@ -88,7 +91,7 @@ function detectPlayStatus() {
                     currentSong = track;
 
                     if (track != " - ") {
-                        notification("images/songexample.png", "Now Playing", track);
+                        notification(currentStationLogo == "" ? "images/songexample.png" : currentStationLogo, currentStationName + " - Now Playing", track);
                     }
                 }
             });

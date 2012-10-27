@@ -1,7 +1,9 @@
 var isPlaying = false;
 var isConnected = true; //Assume true at first since it had to be connected to download the page.
 var currentSong = ""; //Holds on to the current so for display and checking for new songs.
-var currentStreamUrl = "http://momori.animenfo.com:8000/;";
+var currentStreamUrl = isWeb == true ? "http://momori.animenfo.com:8000/;" : "";
+var currentStationName = "";
+var currentStationLogo = "";
 
 function nav(pagenum) {
     var p = $(".page");
@@ -109,6 +111,8 @@ function initializeApp() {
                     isPlaying = false;
 
                     currentSong = "";
+                    currentStationLogo = "";
+                    currentStationName = "";
 
                     $("#cPlay").attr('class', 'controlButton icon-play');
                 });
@@ -157,6 +161,11 @@ $(document).keydown(function (e) { if (e.keyCode == '70') { e.preventDefault(); 
 // Controls
 
 $("#cPlay").click(function () {
+    if (currentStreamUrl == "") {
+        dialog("Error", "Nothing to play.", "Close");
+        return;
+    }
+
     if (isPlaying == false) {
         isPlaying = true;
 
