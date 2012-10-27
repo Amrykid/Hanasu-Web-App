@@ -62,10 +62,10 @@ function getCatalogStations() {
             var heightis = $(this).height();
             if (heightis == 120) {
                 $(this).animate({ height: "240px" }, 400);
-                $(targetedElement).find(".stationsStream").show();
+                $(targetElement).find(".stationsStream").show();
             } else {
                 $(this).animate({ height: "120px" }, 400);
-                $(targetedElement).find(".stationsStream").hide();
+                $(targetElement).find(".stationsStream").hide();
             }
         });
     });
