@@ -152,11 +152,11 @@ $("#cPlay").click(function () {
         isPlaying = true;
 
         if (isWeb) {
-            $.post("/play");
-        }
-        else {
             $("#jquery_jplayer").jPlayer("setMedia", { mp3: currentStreamUrl });
             $("#jquery_jplayer").jPlayer("play");
+        }
+        else {
+            $.post("/play");
         }
     } else {
         isPlaying = false;
