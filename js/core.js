@@ -1,7 +1,7 @@
 var isPlaying = false;
 var isConnected = true; //Assume true at first since it had to be connected to download the page.
 var currentSong = ""; //Holds on to the current so for display and checking for new songs.
-var currentStreamUrl = "http://momori.animenfo.com:8000/;stream/1";
+var currentStreamUrl = "http://momori.animenfo.com:8000/;";
 
 function nav(pagenum) {
     var p = $(".page");
@@ -137,6 +137,15 @@ function notification(i, t, a) {
         $("#notification").hide('slide', { direction: 'right' }, 500);
     }, 3000);
 }
+function flyout(header, content) {
+    $("#flyoutheader").html(header);
+    $("#contentspan").html(content);
+    $("#flyout").show('slide', { direction: 'right' }, 500);
+
+    $("#flyoutclosebutton").click(function () {
+        $("#flyout").hide('slide', { direction: 'right' }, 500);
+    });
+}
 
 $("#logo").click(function () { nav(0); });
 $("#nButtonStations").click(function () { nav(1); });
@@ -195,4 +204,5 @@ $("#toggleTestElements").click(function () {
 
 $("#mD").click(function () { dialog("Error", "Some random stuff happened. You should probably look into it.", "Close"); });
 $("#nE").click(function () { notification("images/songexample.png", "What the function", "The sleep deprived programmers"); });
+$("#fE").click(function () { flyout("Some Header", ""); });
 
