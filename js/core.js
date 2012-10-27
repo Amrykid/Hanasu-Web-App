@@ -1,6 +1,7 @@
 var isPlaying = false;
 var isConnected = true; //Assume true at first since it had to be connected to download the page.
 var currentSong = ""; //Holds on to the current so for display and checking for new songs.
+var currentStreamUrl = "";
 
 function nav(pagenum) {
     var p = $(".page");
@@ -12,7 +13,9 @@ function nav(pagenum) {
         case 1:
             p.fadeOut();
             $("#stationsPage").fadeIn();
-            getCatalogStations(); //You should move this to where you press Hanasu catalog
+            if (!isWeb) {
+                getCatalogStations(); //You should move this to where you press Hanasu catalog
+            }
             break;
         case 2:
             p.fadeOut();
@@ -22,157 +25,99 @@ function nav(pagenum) {
 }
 
 $("#hanasuCatalogButton").click(function () {
-    getCatalogStations(); //You should move this to where you press Hanasu catalog
+    if (!isWeb) {
+        getCatalogStations(); //You should move this to where you press Hanasu catalog
+    }
 });
 
-function getCatalogStations() {
-    //load the stations
-    $.get("/stations", function (data) {
-        var $xml = $(data);
 
-        $xml.find('Station').each(function (stationIndex, station) {
-            var stationHtml = $("<div></div>");
-            stationHtml.attr("class", "station");
-
-            var logo = $(station).find("Logo");
-            var name = $(station).find("Name");
-            var language = $(station).find("Language");
-
-            stationHtml.append("<img src=\"" + $(logo).html() + "\"/>");
-            stationHtml.append("<span class=\"sTitle sName\">" + $(name).html() + "</span>");
-            //stationHtml.append("<br />");
-            stationHtml.append("<span class=\"sTitle sLanguage\">" + $(language).html() + "</span>");
-            stationHtml.append("<div class=\"stationsStream\" style=\"\"><div class=\"stationsStreamI\"><ul></ul></div></div>");
-
-            $("#stationContainer").append(stationHtml);
-        });
-
-        $(".station").click(function (data) {
-            var statName = $(jQuery(this).children("span")[0]).html();
-
-            if (isConnected == false) {
-                dialog("Error", "Can't play station: " + statName + ". You are not connected to Hanasu.", "Close");
-                return;
-            }
-
-            var targetElement = jQuery(this);
-            var ul = $($(jQuery(this).children("div")[0]).children("div")[0]).children("ul");
-
-            if (ul.html() == "") {
-                //Since we never retrieved the stations, fetch them.
-                $.get("/getstationstreams?station=" + statName, function (data) {
-
-
-                    var $xml = $(data);
-                    var station = $xml[0];
-                    var streams = $(station)[0];
-
-                    $(streams).find('Stream').each(function (Index, stream) {
-
-                        var title = $(stream).find("Title").html();
-                        var url = $(stream).find("Url").html();
-
-                        var firstDiv = $(targetElement).children("div")[0];
-                        var secondDiv = $(firstDiv).children("div")[0]
-                        $($(secondDiv).children("ul")[0]).append("<li class=\"ssConnection\"><span class=\"ssName\">" + title + "</span><span class=\"ssLocation\">" + url + "</span></li>");
-
-                    });
-
-                    $(".ssConnection").click(function (data) {
-                        var statUrl = $(jQuery(this).children("span")[1]).html();
-                        $.post("/play2?station=" + statName + "&url=" + statUrl);
-                    });
-                });
-            }
-
-            var heightis = $(this).height();
-            if (heightis == 120) {
-                $(this).animate({ height: "240px" }, 400);
-                $(targetedElement).find(".stationsStream").show();
-            } else {
-                $(this).animate({ height: "120px" }, 400);
-                $(targetedElement).find(".stationsStream").hide();
-            }
-        });
-    });
-}
-
-function detectPlayStatus() {
-    //Detects if Hanasu is playing a station.
-    $.get("/isplaying", function (data) {
-        isPlaying = data == 'true';
-
-        $("#cPlay").attr('class', isPlaying == true ? 'controlButton icon-pause' : 'controlButton icon-play');
-
-        if (isPlaying) {
-
-            //Since Hanasu is playing a station, grab its 'now playing' data and show it in a notification.
-            $.get("/nowplaying", function (track) {
-
-                if (track != currentSong) {
-                    //New song, so show a notification.
-                    currentSong = track;
-
-                    if (track != " - ") {
-                        notification("images/songexample.png", "Now Playing", track);
-                    }
-                }
-            });
-        }
-    });
-}
-
-function localizeApp() {
-    $('[i18n-name]').each(function (index, element) {
-        var key = $(element).attr('i18n-name');
-
-        $.get("/getlocalizedvalue?key=" + key, function (data) {
-            $(element).html(data);
-        });
-    });
-}
 
 function initializeApp() {
     //any important starting procedures, we can put here.
 
+    $(document).ready(function () {
+        setTimeout(function () {
+            $("#loadingSplash").fadeOut();
+        }, 1000);
+    });
+
     $.ajaxSetup({ cache: false });
 
-    localizeApp(); //Begin translating the app.
+    if (isWeb) {
 
+        // Temp Web Only and Client mode switching
 
-    //initalize heartbeat timer
-    var heartBeatTimer = $.timer(function () {
-        //this runs every 5 seconds to check if theres a connection to Hanasu. 
-        //If there is, grab the current song. 
-        //If the current song is different from the stored current song, its a new song.
-
-        $.get("/ping")
-        .success(function (data) {
-            //got a response from Hanasu, so set isConnected to true
-            isConnected = true;
-
-            detectPlayStatus();
-        })
-        .error(function (data) {
-            //failed to get a response from Hanasu, set isConnected to false
-            if (isConnected) {
-                //the last time the heartbeat ran, it was connected.
-                //lets alert the user that the connection as been lost.
-
-                dialog("Error", "Connection to Hanasu has been lost.", "Close");
+        $("#toggleMode").click(function () {
+            if (isWeb == false) {
+                isWeb = true;
+            } else {
+                isWeb = false;
             }
-
-            isConnected = false;
-            isPlaying = false;
-
-            currentSong = "";
-
-            $("#cPlay").attr('class', 'controlButton icon-play');
         });
 
-    });
-    heartBeatTimer.set({ time: 5000, autostart: true });
+        $(".station").click(function () {
+            if (isWeb == true) {
+                var heightis = $(this).height();
+                if (heightis == 120) {
+                    $(this).animate({ height: "240px" }, 400);
+                    $(".station .stationsStream").show();
+                } else {
+                    $(this).animate({ height: "120px" }, 400);
+                    $(".station .stationsStream").hide();
+                }
+            }
+        });
 
+        $.getScript("js/jplayer/jquery.jplayer.min.js", function (data, textStatus, jqxhr) {
+            $("#jquery_jplayer").jPlayer({
+                swfPath: "/js/jplayer"
+            });
+        });
+
+    }
+    else {
+
+        $.getScript("js/desktop.js", function () {
+
+            localizeApp(); //Begin translating the app.
+
+            $.getScript("js/jquery.timer.js", function (data, textStatus, jqxhr) {
+
+                //initalize heartbeat timer
+                var heartBeatTimer = $.timer(function () {
+                    //this runs every 5 seconds to check if theres a connection to Hanasu. 
+                    //If there is, grab the current song. 
+                    //If the current song is different from the stored current song, its a new song.
+
+                    $.get("/ping")
+                .success(function (data) {
+                    //got a response from Hanasu, so set isConnected to true
+                    isConnected = true;
+
+                    detectPlayStatus();
+                })
+                .error(function (data) {
+                    //failed to get a response from Hanasu, set isConnected to false
+                    if (isConnected) {
+                        //the last time the heartbeat ran, it was connected.
+                        //lets alert the user that the connection as been lost.
+
+                        dialog("Error", "Connection to Hanasu has been lost.", "Close");
+                    }
+
+                    isConnected = false;
+                    isPlaying = false;
+
+                    currentSong = "";
+
+                    $("#cPlay").attr('class', 'controlButton icon-play');
+                });
+
+                });
+                heartBeatTimer.set({ time: 5000, autostart: true });
+            });
+        });
+    }
 
 }
 
@@ -205,21 +150,30 @@ $(document).keydown(function (e) { if (e.keyCode == '70') { e.preventDefault(); 
 $("#cPlay").click(function () {
     if (isPlaying == false) {
         isPlaying = true;
-        $.post("/play");
+
+        if (isWeb) {
+            $.post("/play");
+        }
+        else {
+            $("#jquery_jplayer").jPlayer("setMedia", { mp3: currentStreamUrl });
+            $("#jquery_jplayer").jPlayer("play");
+        }
     } else {
         isPlaying = false;
-        $.post("/pause");
+
+
+        if (isWeb) {
+            $("#jquery_jplayer").jPlayer("pause");
+        }
+        else {
+            $.post("/pause");
+        }
     }
     $("#cPlay").attr('class', isPlaying == true ? 'controlButton icon-pause' : 'controlButton icon-play');
 });
 
 initializeApp(); //Starts the app
 
-$(document).ready(function () {
-    setTimeout(function () {
-        $("#loadingSplash").fadeOut();
-    }, 1000);
-});
 
 // Testing Features
 
@@ -242,27 +196,3 @@ $("#toggleTestElements").click(function () {
 $("#mD").click(function () { dialog("Error", "Some random stuff happened. You should probably look into it.", "Close"); });
 $("#nE").click(function () { notification("images/songexample.png", "What the function", "The sleep deprived programmers"); });
 
-// Temp Web Only and Client mode switching
-
-var isWeb = false; // Defult off
-
-$("#toggleMode").click(function () {
-    if (isWeb == false) {
-        isWeb = true;
-    } else {
-        isWeb = false;
-    }
-});
-
-$(".station").click(function () {
-    if (isWeb == true) {
-        var heightis = $(this).height();
-        if (heightis == 120) {
-            $(this).animate({ height: "240px" }, 400);
-            $(".station .stationsStream").show();
-        } else {
-            $(this).animate({ height: "120px" }, 400);
-            $(".station .stationsStream").hide();
-        }
-    }
-});
